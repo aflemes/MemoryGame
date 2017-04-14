@@ -5,7 +5,7 @@ android {
     buildToolsVersion '25.0.0'
 
     defaultConfig {
-        applicationId "com.aula_android.views_basicas_2"
+        applicationId "com.android.MemoryGame"
         minSdkVersion 11
         targetSdkVersion 23
         versionCode 1
