@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,7 +30,6 @@ public class ImageAdapter extends BaseAdapter {
 
 	public ImageAdapter(Context c) {
 		contexto = c;
-		//initImagens();
 	}
 	public int getCount() {   //m�todo abstrato     
 		return imagens.length;
@@ -84,5 +84,16 @@ public class ImageAdapter extends BaseAdapter {
 
 		//imagens = imagens_aux;
 	}
+
+	public void setImagens(){
+        for (int i=0;i < imagens.length;i++){
+            imagens[i] = R.drawable.sample_blank;
+        }
+        this.notifyDataSetChanged();
+    }
+
+    public void virar_carta(int posicao){
+
+    }
 
 }

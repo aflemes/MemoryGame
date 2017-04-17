@@ -1,8 +1,12 @@
 package com.aula_android.memoryGame;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,7 +17,24 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     GridView gridview;
-    Button btn;
+    Button btnVirar;
+
+    Runnable runVirarCartas = new Runnable() {
+        @Override
+        public void run(){
+            virar_cartas(); //<-- put your code in here.
+        }
+    };
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+
+        Handler handlerVirarCartas = new Handler();
+        handlerVirarCartas.postDelayed(runVirarCartas, 2000);
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,19 +48,17 @@ public class MainActivity extends AppCompatActivity {
 
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                Toast.makeText(getApplicationContext(), "" + position, Toast.LENGTH_SHORT).show();
+                ImageAdapter img_adpt = (ImageAdapter) gridview.getAdapter();
+                img_adpt.virar_carta(position);
+                //Toast.makeText(getApplicationContext(), "" + position, Toast.LENGTH_SHORT).show();
             }
         });
+    }
 
-        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-        */
+    public void virar_cartas(){
+        ImageAdapter img_adpt = (ImageAdapter) gridview.getAdapter();
+        img_adpt.setImagens();
+        img_adpt.notifyDataSetChanged();
     }
 
     @Override
