@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 ImageAdapter img_adpt = (ImageAdapter) gridview.getAdapter();
                 img_adpt.virar_carta(position);
-                //Toast.makeText(getApplicationContext(), "" + position, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "" + position, Toast.LENGTH_SHORT).show();
             }
         });
     }

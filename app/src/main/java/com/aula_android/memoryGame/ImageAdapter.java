@@ -1,6 +1,7 @@
 package com.aula_android.memoryGame;
 
 import android.content.Context;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,8 +29,24 @@ public class ImageAdapter extends BaseAdapter {
             R.drawable.sample_2, R.drawable.sample_3,
 	};
 
+	private Integer[] imagens_original;
+    private int lstChoise = 0;
+    private int lstPosicao = 0;
+
+    private Runnable runDesvirarCartas = new Runnable() {
+        @Override
+        public void run(){
+            desvirar_cartas(); //<-- put your code in here.
+        }
+    };
+
 	public ImageAdapter(Context c) {
 		contexto = c;
+
+        imagens_original = new Integer[imagens.length];
+
+        for (int i=0;i<imagens.length;i++)
+		    imagens_original[i] = imagens[i];
 	}
 	public int getCount() {   //m�todo abstrato     
 		return imagens.length;
@@ -93,7 +110,30 @@ public class ImageAdapter extends BaseAdapter {
     }
 
     public void virar_carta(int posicao){
+        lstPosicao = posicao;
 
+        imagens[lstPosicao] = imagens_original[lstPosicao];
+        this.notifyDataSetChanged();
+
+        //acertou
+        if (imagens[lstPosicao].intValue() == imagens[lstChoise].intValue()){
+            lstChoise  = 0;
+            lstPosicao = 0;
+        }
+        else{
+            if (lstChoise != 0) {
+                Handler handlerDesvirarCartas = new Handler();
+                handlerDesvirarCartas.postDelayed(runDesvirarCartas, 1000);
+            }
+            else lstChoise = lstPosicao;
+        }
+    }
+
+    private void desvirar_cartas(){
+        imagens[lstPosicao] = R.drawable.sample_blank;
+        imagens[lstChoise]  = R.drawable.sample_blank;
+        this.notifyDataSetChanged();
+        lstChoise = 0;
     }
 
 }
