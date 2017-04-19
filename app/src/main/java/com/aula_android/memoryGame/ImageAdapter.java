@@ -118,6 +118,10 @@ public class ImageAdapter extends BaseAdapter {
     }
 
     public void reiniciar(){
+        for (int i=0;i<imagens_original.length;i++){
+            imagens[i] = imagens_original[i];
+        }
+
         iniciar_jogo();
     }
     private void iniciar_jogo(){

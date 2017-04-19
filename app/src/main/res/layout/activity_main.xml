@@ -21,16 +21,17 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_main"
-        android:id="@+id/include" />
-
     <Button
         android:id="@+id/btnReiniciar"
+        style="@android:style/Widget.Holo.Button.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:text="Reiniciar Jogo"
-        app:layout_anchor="@+id/include"
-        app:layout_anchorGravity="bottom|left" />
+        android:layout_gravity="bottom|left"
+        android:layout_weight="1"
+        android:text="Reiniciar Jogo" />
+
+    <include
+        android:id="@+id/include"
+        layout="@layout/content_main" />
 
 </android.support.design.widget.CoordinatorLayout>
