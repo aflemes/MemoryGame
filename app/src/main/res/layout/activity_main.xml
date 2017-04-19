@@ -24,4 +24,13 @@
     <include layout="@layout/content_main"
         android:id="@+id/include" />
 
+    <Button
+        android:id="@+id/btnReiniciar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:text="Reiniciar Jogo"
+        app:layout_anchor="@+id/include"
+        app:layout_anchorGravity="bottom|left" />
+
 </android.support.design.widget.CoordinatorLayout>

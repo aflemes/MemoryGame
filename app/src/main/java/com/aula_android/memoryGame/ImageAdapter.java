@@ -32,6 +32,8 @@ public class ImageAdapter extends BaseAdapter {
 	private Integer[] imagens_original;
     private int lstChoise = 0;
     private int lstPosicao = 0;
+    private int combinacoes = 0;
+    private boolean lFlag = false;
 
     private Runnable runDesvirarCartas = new Runnable() {
         @Override
@@ -43,10 +45,7 @@ public class ImageAdapter extends BaseAdapter {
 	public ImageAdapter(Context c) {
 		contexto = c;
 
-        imagens_original = new Integer[imagens.length];
-
-        for (int i=0;i<imagens.length;i++)
-		    imagens_original[i] = imagens[i];
+        iniciar_jogo();
 	}
 	public int getCount() {   //m�todo abstrato     
 		return imagens.length;
@@ -74,34 +73,6 @@ public class ImageAdapter extends BaseAdapter {
 			return imageView;    
 		}
 
-	public void initImagens(){
-		/*Random r = new Random();
-		int i = 0;
-		Integer[] array_imgs = {R.drawable.sample_0, R.drawable.sample_1,
-					 			R.drawable.sample_2, R.drawable.sample_3,
-					 			R.drawable.sample_4, R.drawable.sample_5,
-					 			R.drawable.sample_6, R.drawable.sample_7};
-		Integer[] imgs_inits = {0,0,0,0,0,0,0,0};
-		ArrayList<Integer> imagens_aux = new ArrayList<>();
-
-		while (true){
-			if (i >= 16)
-				break;
-
-			int nextImage = r.nextInt(0 - 7);
-
-			if (imgs_inits[nextImage] != 2){
-				imagens_aux.add(i,imgs_inits[nextImage]);
-				imgs_inits[nextImage]++;
-				i++;
-                Log.d("Incluído registro","");
-            }
-		}
-        Log.d("Sai","");*/
-
-		//imagens = imagens_aux;
-	}
-
 	public void setImagens(){
         for (int i=0;i < imagens.length;i++){
             imagens[i] = R.drawable.sample_blank;
@@ -110,6 +81,9 @@ public class ImageAdapter extends BaseAdapter {
     }
 
     public void virar_carta(int posicao){
+        if (lFlag)
+            return;
+
         lstPosicao = posicao;
 
         imagens[lstPosicao] = imagens_original[lstPosicao];
@@ -119,9 +93,15 @@ public class ImageAdapter extends BaseAdapter {
         if (imagens[lstPosicao].intValue() == imagens[lstChoise].intValue()){
             lstChoise  = 0;
             lstPosicao = 0;
+            combinacoes-=2;
+
+            if (combinacoes == 0){
+
+            }
         }
         else{
             if (lstChoise != 0) {
+                lFlag  = true;
                 Handler handlerDesvirarCartas = new Handler();
                 handlerDesvirarCartas.postDelayed(runDesvirarCartas, 1000);
             }
@@ -134,6 +114,31 @@ public class ImageAdapter extends BaseAdapter {
         imagens[lstChoise]  = R.drawable.sample_blank;
         this.notifyDataSetChanged();
         lstChoise = 0;
+        lFlag = false;
     }
 
+    public void reiniciar(){
+        iniciar_jogo();
+    }
+    private void iniciar_jogo(){
+        // variaveis
+        Random rdnNumber = new Random();
+        int value = 0;
+        int img_aux = 0;
+
+        imagens_original = new Integer[imagens.length];
+
+        for (int i=0;i<imagens.length;i++){
+            value = (rdnNumber.nextInt(imagens.length - 0));
+            img_aux = imagens[value];
+            imagens[value] = imagens[i];
+            imagens[i] = img_aux;
+        }
+
+        for (int i=0;i<imagens.length;i++)
+            imagens_original[i] = imagens[i];
+
+        combinacoes = imagens.length / 2;
+        this.notifyDataSetChanged();
+    }
 }

@@ -17,7 +17,7 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     GridView gridview;
-    Button btnVirar;
+    Button btnReiniciar;
 
     Runnable runVirarCartas = new Runnable() {
         @Override
@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
 
         Handler handlerVirarCartas = new Handler();
-        handlerVirarCartas.postDelayed(runVirarCartas, 2000);
+        handlerVirarCartas.postDelayed(runVirarCartas, 4000);
     }
 
 
@@ -50,7 +50,18 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 ImageAdapter img_adpt = (ImageAdapter) gridview.getAdapter();
                 img_adpt.virar_carta(position);
-                Toast.makeText(getApplicationContext(), "" + position, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        btnReiniciar = (Button) findViewById(R.id.btnReiniciar);
+        btnReiniciar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ImageAdapter img_adpt = (ImageAdapter) gridview.getAdapter();
+                img_adpt.reiniciar();
+
+                Handler handlerVirarCartas = new Handler();
+                handlerVirarCartas.postDelayed(runVirarCartas, 4000);
             }
         });
     }
