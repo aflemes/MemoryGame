@@ -1,6 +1,8 @@
 package com.aula_android.memoryGame;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
@@ -34,6 +36,7 @@ public class ImageAdapter extends BaseAdapter {
     private int lstPosicao = 0;
     private int combinacoes = 0;
     private boolean lFlag = false;
+    private int qtdeTentativas = 0;
 
     private Runnable runDesvirarCartas = new Runnable() {
         @Override
@@ -80,9 +83,12 @@ public class ImageAdapter extends BaseAdapter {
         this.notifyDataSetChanged();
     }
 
-    public void virar_carta(int posicao){
+    public int virar_carta(int posicao){
         if (lFlag)
-            return;
+            return qtdeTentativas;
+
+        if (imagens[posicao] != R.drawable.sample_blank)
+            return qtdeTentativas;
 
         lstPosicao = posicao;
 
@@ -93,10 +99,10 @@ public class ImageAdapter extends BaseAdapter {
         if (imagens[lstPosicao].intValue() == imagens[lstChoise].intValue()){
             lstChoise  = 0;
             lstPosicao = 0;
-            combinacoes-=2;
+            combinacoes-=1;
 
-            if (combinacoes == 0){
-
+            if (combinacoes == -1){
+                winner_message();
             }
         }
         else{
@@ -104,9 +110,12 @@ public class ImageAdapter extends BaseAdapter {
                 lFlag  = true;
                 Handler handlerDesvirarCartas = new Handler();
                 handlerDesvirarCartas.postDelayed(runDesvirarCartas, 1000);
+                qtdeTentativas++;
             }
             else lstChoise = lstPosicao;
         }
+
+        return qtdeTentativas;
     }
 
     private void desvirar_cartas(){
@@ -129,6 +138,7 @@ public class ImageAdapter extends BaseAdapter {
         Random rdnNumber = new Random();
         int value = 0;
         int img_aux = 0;
+        int qtdeTentativas = 0;
 
         imagens_original = new Integer[imagens.length];
 
@@ -144,5 +154,18 @@ public class ImageAdapter extends BaseAdapter {
 
         combinacoes = imagens.length / 2;
         this.notifyDataSetChanged();
+    }
+
+    private void winner_message(){
+        AlertDialog.Builder alert = new AlertDialog.Builder(contexto);
+        alert.setTitle("Você venceu!");
+        // alert.setMessage("Message");
+
+        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener(){
+            public void onClick(DialogInterface dialog, int whichButton) {
+                //Your action here
+            }
+        });
+        alert.show();
     }
 }

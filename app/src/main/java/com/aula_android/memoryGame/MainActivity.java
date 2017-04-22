@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
@@ -49,7 +50,9 @@ public class MainActivity extends AppCompatActivity {
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 ImageAdapter img_adpt = (ImageAdapter) gridview.getAdapter();
-                img_adpt.virar_carta(position);
+                String qtdeTentativas = String.valueOf(img_adpt.virar_carta(position));
+                TextView txtTentativas = (TextView) findViewById(R.id.txtTentativas);
+                txtTentativas.setText(qtdeTentativas);
             }
         });
 
@@ -62,6 +65,9 @@ public class MainActivity extends AppCompatActivity {
 
                 Handler handlerVirarCartas = new Handler();
                 handlerVirarCartas.postDelayed(runVirarCartas, 4000);
+
+                TextView txtTentativas = (TextView) findViewById(R.id.txtTentativas);
+                txtTentativas.setText("0");
             }
         });
     }
@@ -85,11 +91,6 @@ public class MainActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
 
         return super.onOptionsItemSelected(item);
     }
